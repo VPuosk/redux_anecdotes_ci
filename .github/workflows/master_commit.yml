@@ -1,0 +1,60 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  simple_deployment_pipeline:
+    if: ${{ github.event_name == 'push' && !contains( toJson(github.event.commits.*.message),'#skip') }}
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: npm install
+        run: npm install
+      - name: lint
+        run: npm run eslint
+      - name: build
+        run:  npm run build
+      - name: test
+        run: npm run test
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+      #- name: heroku deploy
+      #  uses: akhileshns/heroku-deploy@v3.12.12
+      #  with:
+      #    heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #    heroku_app_name: fierce-scrubland-47647
+      #    heroku_email: ${{secrets.HEROKU_EMAIL}}
+      #    healthcheck: "https://fierce-scrubland-47647.herokuapp.com/healthcheck"
+      #    checkstring: "ok"
+      #    rollbackonhealthcheckfailed: true
+      #- name: Check the deployed service URL
+      #  uses: jtalk/url-health-check-action@v2
+      #  with:
+      #    url: https://fierce-scrubland-47647.herokuapp.com/healthcheck
+      #    follow-redirect: false # Optional, defaults to "no"
+      #    max-attempts: 3 # Optional, defaults to 1
+      #    retry-delay: 10s # Optional, only applicable to max-attempts > 1
+  tag_the_repo:
+    if: ${{ github.event_name == 'push' && !contains( toJson(github.event.commits.*.message),'#skip') }}
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: tag the repo
+        uses: anothrNick/github-tag-action@1.33.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          DRY_RUN: false
