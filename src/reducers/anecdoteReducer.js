@@ -5,18 +5,18 @@ const anecdoteReducer = (state = [], action) => {
   //console.log('action', action)
 
   switch(action.type) {
-    case 'VOTE':
-      return state.map(anec =>
-        anec.id !== action.data.id ? anec : action.data
-      )
-    case 'NEW_ANECDOTE':
-      //const anecdote = asObject(action.data.anecdote)
-      //return [...state, anecdote]
-      return [...state, action.data]
-    case 'INIT_ANECDOTES':
-      return action.data
-    default:
-      return state
+  case 'VOTE':
+    return state.map(anec =>
+      anec.id !== action.data.id ? anec : action.data
+    )
+  case 'NEW_ANECDOTE':
+    //const anecdote = asObject(action.data.anecdote)
+    //return [...state, anecdote]
+    return [...state, action.data]
+  case 'INIT_ANECDOTES':
+    return action.data
+  default:
+    return state
   }
 }
 

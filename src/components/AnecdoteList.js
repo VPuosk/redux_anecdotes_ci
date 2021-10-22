@@ -1,9 +1,9 @@
-import React from "react";
-import { voteAnecdote } from "../reducers/anecdoteReducer";
-import { setNotification } from "../reducers/notificationReducer";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react'
+import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch, useSelector } from 'react-redux'
 
-const AnecdoteList = (props) => {
+const AnecdoteList = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(state => {
     if (state.filter === '') {
@@ -32,16 +32,16 @@ const AnecdoteList = (props) => {
           return b.votes - a.votes
         })
         .map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
+          <div key={anecdote.id}>
+            <div>
+              {anecdote.content}
+            </div>
+            <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+              <button onClick={() => vote(anecdote.id)}>vote</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteForm = (props) => {
-  
+
   const newAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value

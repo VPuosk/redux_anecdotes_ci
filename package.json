@@ -21,7 +21,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server -p3001 --watch db.json"
+    "server": "json-server -p3001 --watch db.json",
+    "server-test": "json-server db.json -p3001 --static ./build",
+    "lint": "eslint .",
+    "cypress:open": "cypress open",
+    "cypress": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +46,9 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^8.6.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "redux-devtools-extension": "^2.13.9"
   }
 }
