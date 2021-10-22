@@ -3,10 +3,10 @@ name: Branch testing pipeline
 on:
   push:
     branches-ignore:
-      - master
+      - main
 
 jobs:
-  simple_deployment_pipeline:
+  tests_run_on_branch:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-18.04
     steps:
